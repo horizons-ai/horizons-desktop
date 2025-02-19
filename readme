@@ -1,0 +1,16 @@
+
+# Horizons desktop
+
+Desktop app for collecting data from f1 simulator
+
+## How to install & run
+
+## Installation
+
+Install my-project with npm
+
+```bash
+  npm install 
+  npm run dev
+```
+    

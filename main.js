@@ -1,4 +1,12 @@
-import { app, BrowserWindow } from 'electron';
+import { app, BrowserWindow, ipcMain } from 'electron';
+import * as dgram from 'dgram';
+import fs from 'fs';
+import { start } from 'repl';
+
+const PORT = 20777;
+const outputFile = 'output.txt';
+
+let udpServer = null;
 
 const createWindow = () => {
   // Create the browser window.
@@ -43,5 +51,50 @@ app.on('window-all-closed', () => {
   }
 });
 
+function startUpServer() {
+  if (udpServer) {
+    console.log('The server is already on');
+    return;
+  }
+
+  udpServer = dgram.createSocket('udp4');
+
+  udpServer.on('error', (err) => {
+    console.log(`UDP server error:\n${err.stack}`);
+
+    udpServer?.close();
+    udpServer = null;
+  })
+
+  udpServer.on('message', (msg, rinfo) => {
+    console.log(`UDP server got: ${msg} from ${rinfo.address}:${rinfo.port}`);
+
+    const hexString = msg.toString('hex');
+
+    fs.appendFile(outputFile, hexString + '\n', (err) => {
+      if (err) {
+        console.error(`Error writing to file: ${err}`);
+      }
+    });
+
+    console.log(`Received ${msg.length} bytes from ${rinfo.address}:${rinfo.port}`);
+  });
+
+  udpServer.on('listening', () => {
+    const address = udpServer?.address();
+    if (typeof address === 'object' && address !== null) {
+      console.log(`UDP server listening on ${address.address}:${address.port}`);
+    }
+
+  });
+
+  udpServer.bind(41234);
+}
+
 // In this file you can include the rest of your app's specific main process
 // code. You can also put them in separate files and import them here.
+
+ipcMain.on('start-server', () => {
+  console.log('Starting server...');
+  startUpServer();
+});

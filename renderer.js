@@ -5,7 +5,8 @@ const ipcRenderer = require('electron').ipcRenderer;
 const btn = document.getElementById("btn-udp");
 if (btn) {
   btn.addEventListener("click", () => {
-    alert("Button clicked!");
+    alert("Server listening!");
+    ipcRenderer.send('start-server', 'start');
   });
 } else {
   console.error("Button not found!");
