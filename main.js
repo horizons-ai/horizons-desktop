@@ -67,7 +67,7 @@ function startUpServer() {
   })
 
   udpServer.on('message', (msg, rinfo) => {
-    console.log(`UDP server got: ${msg} from ${rinfo.address}:${rinfo.port}`);
+    // console.log(`UDP server got: ${msg} from ${rinfo.address}:${rinfo.port}`);
 
     const hexString = msg.toString('hex');
 
@@ -77,7 +77,7 @@ function startUpServer() {
       }
     });
 
-    console.log(`Received ${msg.length} bytes from ${rinfo.address}:${rinfo.port}`);
+    // console.log(`Received ${msg.length} bytes from ${rinfo.address}:${rinfo.port}`);
   });
 
   udpServer.on('listening', () => {
@@ -88,7 +88,7 @@ function startUpServer() {
 
   });
 
-  udpServer.bind(41234);
+  udpServer.bind(PORT);
 }
 
 // In this file you can include the rest of your app's specific main process
