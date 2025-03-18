@@ -91,10 +91,27 @@ function startUpServer() {
   udpServer.bind(PORT);
 }
 
+function stopServer() {
+  if (!udpServer) {
+    console.log('The server is already stoped');
+    return;
+  }
+
+  udpServer.close(() => {
+    console.log('UDP server closed');
+    udpServer = null;
+  });
+}
+
 // In this file you can include the rest of your app's specific main process
 // code. You can also put them in separate files and import them here.
 
 ipcMain.on('start-server', () => {
   console.log('Starting server...');
   startUpServer();
+});
+
+ipcMain.on('stop-server', () => {
+  console.log('Stoping server...');
+  stopServer();
 });

@@ -18,8 +18,19 @@
     <h2>Welcome to Horizons Desktop</h2>
     <p>Press the button to start getting data</p>
     <button id="btn-udp" type="button" class="btn btn-lg button">Press</button>
+    <button id="btn-stop" type="button" class="btn btn-lg button stop">Press</button>
 
     <script src="./renderer.js"></script>
+    <script>
+      let btnStatus = false;
+      const $ = (id) => {return document.querySelector(id)}
+      const btn = $('btn-udp');
+      const btnClose = $('btn-stop');
+
+      btn.addEventListener('click');
+      btnClose.addEventListener('click');
+
+    </script>
   </body>
 </html>
 

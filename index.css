@@ -29,3 +29,13 @@ p {
   background-color: #9ff7cb;
   transition: all 0.5s ease;
 }
+
+.stop {
+  background-color: #b02020;
+  display: none;
+}
+
+.stop:hover {
+  background-color: #d74848;
+  transition: all 0.5s ease;
+}
